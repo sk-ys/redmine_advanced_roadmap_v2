@@ -13,7 +13,8 @@ module AdvancedRoadmap
           end
           return(tabs)
         end
-        alias_method_chain :project_settings_tabs, :more_tabs
+        alias_method :project_settings_tabs_without_more_tab, :project_settings_tabs
+        alias_method :project_settings_tabs, :project_settings_tabs_with_more_tabs
       end
     end
   end

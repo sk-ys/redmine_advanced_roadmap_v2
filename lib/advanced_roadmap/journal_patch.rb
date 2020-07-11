@@ -4,9 +4,9 @@ module AdvancedRoadmap
       base.class_eval do
         unloadable
         base.send(:include, InstanceMethods)
-
         base.class_eval do
-          alias_method_chain :visible_details, :estimated_time_hidden
+          alias_method :visible_details_without_estimated_time_hidden, :visible_details
+          alias_method :visible_details, :visible_details_with_estimated_time_hidden
         end 
       end
     end

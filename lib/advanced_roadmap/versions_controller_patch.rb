@@ -11,12 +11,14 @@ module AdvancedRoadmap
           Version.sort_versions(@versions)
 
           @issues_by_version.each do |versions|
-	    versions.last.delete_if { |issue | issue.closed? }
+	          versions.last.delete_if { |issue | issue.closed? }
           end if params[:only_open]
 
         end
-        alias_method_chain :index, :plugin
-  
+
+        alias_method :index_without_plugin, :index
+        alias_method :index, :index_with_plugin
+
         def show
           @issues = @version.sorted_fixed_issues
         end
