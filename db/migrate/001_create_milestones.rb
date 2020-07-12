@@ -1,20 +1,15 @@
-class CreateMilestones < ActiveRecord::Migration
-  def self.up
-    create_table :milestones, :force => true do |t|
-      t.column :name,             :string,                            :null => false
-      t.column :description,      :string,      :default => ""
-      t.column :effective_date,   :date
-      t.column :user_id,          :integer,                           :null => false
-      t.column :project_id,       :integer,                           :null => false
-      t.column :created_on,       :datetime
-      t.column :updated_on,       :datetime
+class CreateMilestones < ActiveRecord::Migration[4.2]
+  def change
+    create_table :milestones, force: true do |t|
+      t.string    :name,            null: true
+      t.string    :description,     default: ""
+      t.date      :effective_date
+      t.integer   :user_id,         null: false
+      t.integer   :project_id,      null: false
+      t.datetime  :created_on
+      t.datetime  :updated_on
     end
-
-    add_index :milestones, [:user_id], :name => "fk_milestones_user"
-    add_index :milestones, [:project_id], :name => "fk_milestones_project"
-  end
-
-  def self.down
-    drop_table :milestones
+    add_index :milestones, :user_id,    name: :fk_milestones_user
+    add_index :milestones, :project_id, name: :fk_milestones_project
   end
 end

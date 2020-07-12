@@ -1,16 +1,9 @@
-class CreateMilestoneVersions < ActiveRecord::Migration
-  def self.up
-    create_table :milestone_versions, :force => true do |t|
-      t.column :milestone_id,     :integer,                           :null => false
-      t.column :version_id,       :integer,                           :null => false
-      t.column :created_on,       :datetime
-    end
-
-    add_index :milestone_versions, [:milestone_id], :name => "fk_milestone_versions_milestone"
-    add_index :milestone_versions, [:version_id], :name => "fk_milestone_versions_version"
+class CreateMilestoneVersions < ActiveRecord::Migration[4.2]
+  create_table :milestone_versions, force: true do |t|
+    t.integer   :milestone_id, null: true
+    t.integer   :version_id,   null: true
+    t.datetime  :created_on
   end
-
-  def self.down
-    drop_table :milestone_versions
-  end
+  add_index :milestone_versions, :milestone_id, name: :fk_milestone_versions_milestone
+  add_index :milestone_versions, :version_id,   name: :fk_milestone_versions_version
 end
