@@ -2,9 +2,9 @@ require "advanced_roadmap/gruff/pie" if Object.const_defined?(:Magick)
 
 class MilestonesController < ApplicationController
   menu_item :roadmap
-  before_filter :find_project, :only => [:new, :create]
-  before_filter :find_milestone, :only => [:show, :edit, :update, :destroy]
-  before_filter :authorize, :except => [:show, :total_graph]
+  before_action :find_project, :only => [:new, :create]
+  before_action :find_milestone, :only => [:show, :edit, :update, :destroy]
+  before_action :authorize, :except => [:show, :total_graph]
 
   helper :custom_fields
   helper :projects
@@ -37,7 +37,7 @@ class MilestonesController < ApplicationController
   end
 
   def create
-    @milestone = @project.milestones.build(params[:milestone])
+    @milestone = @project.milestones.build(milestone_params)
     @milestone.user_id = User.current.id
     if request.post? and @milestone.save
       if params[:versions]
@@ -75,7 +75,7 @@ class MilestonesController < ApplicationController
         end
       end
     end
-    if @milestone.update_attributes(params[:milestone])
+    if @milestone.update_attributes(milestone_params)
       versions_to_delete.each do |version|
         milestone_version = MilestoneVersion.where("milestone_id = #{@milestone.id} AND version_id = #{version.id}").first
         milestone_version.destroy
@@ -118,7 +118,7 @@ class MilestonesController < ApplicationController
     send_data(g.to_blob, :type => "image/png", :disposition => "inline")
   end
 
-private
+  private
 
   def find_project
     @project = Project.find(params[:project_id])
@@ -131,6 +131,10 @@ private
     @project = @milestone.project
   rescue ActiveRecord::RecordNotFound
     render_404
+  end
+
+  def milestone_params
+    params.require(:milestone).permit(:name, :description, :effective_date)
   end
 
   def graph_theme
