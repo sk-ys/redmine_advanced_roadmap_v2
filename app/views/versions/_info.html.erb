@@ -14,7 +14,7 @@
   <table>
     <%- if (totals[:spent_hours] + totals[:rest_hours]) > 0 -%>
       <tr>
-        <td width="310px" align="right">% <%= (params[:controller] == "milestones") ? l(:label_milestone) : l(:label_project) %></td>
+        <td width="310px" align="right"> <%= (params[:controller] == "milestones") ? l(:label_milestone) : l(:label_project) %></td>
         <td width="340px" class="total-hours"><%= "%.0f" % (((version_spent_hours + version_rest_hours) * 100.0) / (totals[:spent_hours] + totals[:rest_hours])) %>%</td>
       </tr>
     <%- end -%>
@@ -22,7 +22,7 @@
            User.current.allowed_to?(:view_issue_estimated_hours, @project) -%>
       <%- if !version_estimated_speed.nil? -%>
         <tr>
-            <td width="310px" align="right">% <%= l(:label_estimated_speed) %></td>
+            <td width="310px" align="right"> <%= l(:label_estimated_speed) %></td>
             <td width="340px" class="total-hours"><font color="<%= color_by_ratio(version_estimated_speed) %>"><%= ("%.0f" % (100.0 / version_estimated_speed)) %>%</font></td>
         </tr>
       <%- end -%>
