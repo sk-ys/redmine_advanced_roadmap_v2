@@ -30,7 +30,7 @@ class MilestonesController < ApplicationController
 
   def new
     @projects = Project.visible.order(:name).active
-    @versions = @project.versions
+    @versions = @project.shared_versions
     @milestone = Milestone.new
   rescue ActiveRecord::RecordNotFound
     render_404
@@ -57,12 +57,12 @@ class MilestonesController < ApplicationController
 
   def edit
     @projects = Project.order(:name).all
-    @versions = @project.versions
+    @versions = @project.shared_versions
   end
 
   def update
     @projects = Project.order(:name).all
-    @versions = @project.versions
+    @versions = @project.shared_versions
     versions_to_delete = @milestone.versions
     versions_to_add = []
     if params[:versions]

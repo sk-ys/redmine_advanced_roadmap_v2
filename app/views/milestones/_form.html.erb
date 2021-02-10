@@ -47,7 +47,7 @@
           <th><%= l(:field_description) %></th>
           <th><%= l(:label_milestone_plural) %></th>
         </thead>
-        <% project.versions.sort.each do |version| %>
+        <% project.shared_versions.sort.each do |version| %>
           <tr class="<%= cycle("odd", "even") %>">
             <td>
               <%= check_box_tag "versions[]", version.id, @milestone.versions?(version) %>
